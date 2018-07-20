@@ -4,7 +4,7 @@
 
 using namespace seqan;
 
-int computeLocalScore(String<char> subText, String<char> pattern)
+int computeLocalScore(String<char> const & subText, String<char> const & pattern)
 {
     int localScore = 0;
     for (unsigned i = 0; i < length(pattern); ++i)
@@ -15,7 +15,7 @@ int computeLocalScore(String<char> subText, String<char> pattern)
 }
 
 
-String<int> computeScore(String<char> text, String<char> pattern)
+String<int> computeScore(String<char> const & text, String<char> const & pattern)
 {
     String<int> score;
     resize(score, length(text) - length(pattern) + 1);
