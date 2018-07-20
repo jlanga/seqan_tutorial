@@ -29,7 +29,7 @@ String<int> computeScore(String<char> const & text, String<char> const & pattern
 
 
 
-void printScore(String<int >score)
+void print(String<int> const & score)
 {
     for (unsigned i = 0; i < length(score); ++i)
         std::cout << score[i] << " ";
