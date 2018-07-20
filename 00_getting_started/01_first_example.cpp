@@ -5,6 +5,18 @@
 
 using namespace seqan;
 
+
+template <typename TText>
+int computeLocalScore(TText const & subText, seqan::String<seqan::AminoAcid> const & pattern)
+{
+    int localScore = 0;
+    for (unsigned i = 0; i < seqan::length(pattern); ++i)
+        localScore += score(seqan::Blosum62(), subText[i], pattern[i]);
+
+    return localScore;
+}
+
+
 template <typename TText, typename TPattern>
 int computeLocalScore(TText const & subText, TPattern const & pattern)
 {
@@ -15,6 +27,8 @@ int computeLocalScore(TText const & subText, TPattern const & pattern)
 
     return localScore;
 }
+
+
 
 template <typename TText, typename TPattern>
 String<int> computeScore(TText const & text, TPattern const & pattern)
@@ -28,6 +42,13 @@ String<int> computeScore(TText const & text, TPattern const & pattern)
     return score;
 }
 
+template <typename TText>
+void print(TText const & text)
+{
+    std::cout << text << std::endl;
+}
+
+
 void print(String<int> const & text)
 {
     for (unsigned i = 0; i < length(text); ++i)
@@ -40,6 +61,10 @@ int main()
     String<char> text = "This is an awesome tutorial to get to know SeqAn!";
     String<char> pattern = "tutorial";
     String<int> score = computeScore(text, pattern);
+    
+    print(text);
+    print(pattern);
     print(score);
+    
     return 0;
 }
