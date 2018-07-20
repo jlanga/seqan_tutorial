@@ -4,35 +4,51 @@
 
 using namespace seqan;
 
-int main()
+int computeLocalScore(String<char> subText, String<char> pattern)
 {
-    // Initialization
-    String<char> text = "This is an awesome tutorial to get to know SeqAn!";
-    String<char> pattern = "tutorial";
+    int localScore = 0;
+    for (unsigned i = 0; i < length(pattern); ++i)
+        if (subText[i] == pattern[i])
+            ++localScore;
     
-    // Set up the score vector
+    return localScore;
+}
+
+
+String<int> computeScore(String<char> text, String<char> pattern)
+{
     String<int> score;
     resize(score, length(text) - length(pattern) + 1);
     
-    // Computation of the simmilarities
-    // Iteration over the text (outer loop)
-    for (unsigned i = 0; i < length(text) -length(pattern) + 1; ++i)
-    {
-        int localScore = 0;
-        //Iteration over the pattern (inner loop)
-        for (unsigned j = 0; j < length(pattern); ++j)
-        {
-            if (text[i + j] == pattern[j])
-                ++localScore;
-        }
-        score[i] = localScore;
-    } 
+    for (unsigned i = 0; i < length(score); ++i){
+        score[i] = computeLocalScore(infix(text, i, i + length(pattern)), pattern);
+    }
     
-    
-    // Print the results
+    return score;
+}
+
+
+
+void printScore(String<int >score)
+{
     for (unsigned i = 0; i < length(score); ++i)
         std::cout << score[i] << " ";
     std::cout << std::endl;
+    
+}
+
+int main()
+{
+    // Initialize
+    String<char> text = "This is an awesome tutorial to get to know SeqAn!";
+    String<char> pattern = "tutorial";
+    
+    // Compute
+    String<int> score = computeScore(text, pattern);
+    
+    
+    // Print the results
+    printScore(score);
     
     return 0;
 }
